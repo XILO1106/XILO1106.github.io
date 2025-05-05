@@ -1,0 +1,57 @@
+﻿
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    display: flex;
+}
+
+.toggle-btn {
+    position: absolute;
+    top: 0;
+    left: 260px;
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    transition: left 0.3s;
+}
+
+/* 侧边栏样式 */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #333;
+    color: white;
+    transition: width 0.3s;
+    overflow: hidden;
+}
+
+.sidebar.close {
+    width: 0;
+}
+
+.sidebar.close + .toggle-btn {
+    left: 10px;
+}
+
+.sidebar > * {
+    padding: 10px 15px;
+}
+
+.sidebar a {
+    color: white;
+    text-decoration: none;
+    display: block;
+}
+
+.sidebar a:hover {
+    background-color: #575757;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 20px;
+}
+
