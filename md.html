@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown 解析器</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 使用稳定版本的marked库 -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@4.0.0/marked.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+
+    <style>
+        .markdown-content h1 { font-size: 2em; margin: 1em 0; font-weight: bold; }
+        .markdown-content h2 { font-size: 1.5em; margin: 0.8em 0; font-weight: bold; }
+        .markdown-content h3 { font-size: 1.2em; margin: 0.7em 0; font-weight: bold; }
+        .markdown-content p { margin: 1em 0; line-height: 1.6; }
+        .markdown-content ul, .markdown-content ol { margin: 1em 0 1em 2em; }
+        .markdown-content ul { list-style-type: disc; }
+        .markdown-content ol { list-style-type: decimal; }
+        .markdown-content li { margin: 0.5em 0; }
+        .markdown-content a { color: #3B82F6; text-decoration: underline; }
+        .markdown-content blockquote { border-left: 4px solid #ddd; padding-left: 1em; margin: 1em 0; color: #666; }
+        .markdown-content pre { background: #f5f5f5; padding: 1em; border-radius: 4px; overflow-x: auto; margin: 1em 0; }
+        .markdown-content code { font-family: monospace; background: #f0f0f0; padding: 0.2em 0.4em; border-radius: 3px; }
+        .markdown-content img { max-width: 100%; height: auto; margin: 1em 0; }
+        .markdown-content table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+        .markdown-content th, .markdown-content td { border: 1px solid #ddd; padding: 0.5em; text-align: left; }
+        .markdown-content th { background-color: #f5f5f5; }
+    </style>
+</head>
+<body class="bg-gray-100 p-4 md:p-8">
+<div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
+    <h1 class="text-2xl font-bold mb-6 text-blue-600">Markdown 解析器</h1>
+
+    <div id="status" class="mb-4 p-3 bg-yellow-100 text-yellow-800 rounded">
+        正在准备解析...
+    </div>
+
+    <div id="markdown-content" class="markdown-content"></div>
+</div>
+
+<script>
+    // 简单的错误处理函数
+    function showError(message) {
+        const statusEl = document.getElementById('status');
+        statusEl.className = 'mb-4 p-3 bg-red-100 text-red-800 rounded';
+        statusEl.textContent = '错误: ' + message;
+    }
+
+    function showSuccess() {
+        const statusEl = document.getElementById('status');
+        statusEl.className = 'mb-4 p-3 bg-green-100 text-green-800 rounded';
+        statusEl.textContent = '解析成功!';
+    }
+
+    // Markdown内容
+    const markdownText = `# 测试标题
+
+这是一段测试文本，确保解析功能正常工作。
+
+## 二级标题
+
+- 列表项1
+- 列表项2
+  - 子列表项A
+  - 子列表项B
+
+**粗体文本** 和 *斜体文本*
+
+\`\`\`javascript
+// 代码示例
+function test() {
+    console.log("Hello World");
+}
+\`\`\`
+
+> 这是一段引用文字
+
+![示例图片](https://picsum.photos/600/300?random=1 "示例图片")
+`;
+
+    // 页面加载完成后执行解析
+    window.onload = function() {
+        try {
+            // 检查marked库是否加载成功
+            if (typeof marked === 'undefined') {
+                throw new Error('Markdown解析库未加载，请检查网络连接');
+            }
+
+            // 解析Markdown
+            const html = marked.parse(markdownText);
+
+            // 显示解析结果
+            document.getElementById('markdown-content').innerHTML = html;
+
+            // 代码高亮
+            Prism.highlightAll();
+
+            // 显示成功状态
+            showSuccess();
+        } catch (error) {
+            // 显示错误信息
+            showError(error.message);
+            console.error('解析失败:', error);
+        }
+    };
+</script>
+</body>
+</html>
