@@ -3,352 +3,463 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>文章详情 | XILO的博客</title>
+    <title>XILO的博客</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+    <script src="./tailwind.config.js"></script>
+    <link rel="stylesheet" href="./tailwind-utilities.css">
     <!-- Markdown解析和代码高亮 -->
     <script src="https://cdn.jsdelivr.net/npm/marked@4.0.0/marked.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
-
-    <!-- Tailwind配置 -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#165DFF',
-                        secondary: '#36CFC9',
-                        dark: '#1D2129',
-                        light: '#F2F3F5',
-                        muted: '#86909C'
-                    },
-                    fontFamily: {
-                        inter: ['Inter', 'sans-serif'],
-                    },
-                },
-            }
-        }
-    </script>
-
-    <style type="text/tailwindcss">
-        @layer utilities {
-            .content-auto {
-                content-visibility: auto;
-            }
-            .transition-navbar {
-                transition: background-color 0.3s, padding 0.3s, box-shadow 0.3s;
-            }
-        }
-    </style>
-
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-zig.min.js"></script>
     <style>
-        .markdown-content h1 { font-size: 2em; margin: 1em 0; font-weight: bold; }
-        .markdown-content h2 { font-size: 1.5em; margin: 0.8em 0; font-weight: bold; }
-        .markdown-content h3 { font-size: 1.2em; margin: 0.7em 0; font-weight: bold; }
-        .markdown-content p { margin: 1em 0; line-height: 1.6; }
-        .markdown-content ul, .markdown-content ol { margin: 1em 0 1em 2em; }
-        .markdown-content ul { list-style-type: disc; }
-        .markdown-content ol { list-style-type: decimal; }
-        .markdown-content li { margin: 0.5em 0; }
-        .markdown-content a { color: #165DFF; text-decoration: underline; }
-        .markdown-content blockquote { border-left: 4px solid #ddd; padding-left: 1em; margin: 1em 0; color: #666; }
-        .markdown-content pre { background: #f5f5f5; padding: 1em; border-radius: 4px; overflow-x: auto; margin: 1em 0; }
-        .markdown-content code { font-family: monospace; background: #f0f0f0; padding: 0.2em 0.4em; border-radius: 3px; }
-        .markdown-content img { max-width: 100%; height: auto; margin: 1em 0; }
-        .markdown-content table { border-collapse: collapse; width: 100%; margin: 1em 0; }
-        .markdown-content th, .markdown-content td { border: 1px solid #ddd; padding: 0.5em; text-align: left; }
-        .markdown-content th { background-color: #f5f5f5; }
+        /* 确保内容样式优化 */
+        .markdown-content {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #333842;
+        }
+
+        .markdown-content h1 {
+            font-size: 2.2em;
+            margin: 1.5em 0 0.8em;
+            font-weight: 700;
+            color: #1E293B;
+            line-height: 1.3;
+            border-bottom: 1px solid #E2E8F0;
+            padding-bottom: 0.5rem;
+        }
+
+        .markdown-content h2 {
+            font-size: 1.8em;
+            margin: 1.3em 0 0.7em;
+            font-weight: 600;
+            color: #1E293B;
+            line-height: 1.4;
+        }
+
+        .markdown-content h3 {
+            font-size: 1.4em;
+            margin: 1.2em 0 0.6em;
+            font-weight: 600;
+            color: #1E293B;
+        }
+
+        .markdown-content p {
+            margin: 1.2em 0;
+            line-height: 1.8;
+        }
+
+        .markdown-content ul, .markdown-content ol {
+            margin: 1.2em 0 1.2em 1.5em;
+            padding-left: 1em;
+        }
+
+        .markdown-content ul {
+            list-style-type: disc;
+        }
+
+        .markdown-content ol {
+            list-style-type: decimal;
+        }
+
+        .markdown-content li {
+            margin: 0.6em 0;
+        }
+
+        .markdown-content a {
+            color: #3B82F6;
+            text-decoration: none;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .markdown-content a:hover {
+            color: #2563EB;
+        }
+
+        .markdown-content a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -1px;
+            left: 0;
+            background-color: #3B82F6;
+            transition: width 0.3s ease;
+        }
+
+        .markdown-content a:hover::after {
+            width: 100%;
+        }
+
+        .markdown-content blockquote {
+            border-left: 4px solid #3B82F6;
+            padding: 1em 1.5em;
+            margin: 1.5em 0;
+            background-color: #F8FAFC;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .markdown-content pre {
+            background: #1E293B;
+            padding: 1.2em;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1.5em 0;
+            position: relative;
+        }
+
+        .markdown-content code {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95rem;
+        }
+
+        .markdown-content img {
+            max-width: 100%;
+            height: auto;
+            margin: 2em auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            display: block;
+        }
+
+        .markdown-content table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1.5em 0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .markdown-content th, .markdown-content td {
+            border: 1px solid #E2E8F0;
+            padding: 0.8em 1em;
+            text-align: left;
+        }
+
+        .markdown-content th {
+            background-color: #F1F5F9;
+            font-weight: 600;
+        }
+
+        .markdown-content tr:nth-child(even) {
+            background-color: #F8FAFC;
+        }
+
+        /* 平滑滚动 */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* 确保页脚固定在底部 */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        main {
+            flex: 1;
+        }
+
+        /* 相关文章链接样式 */
+        .related-link {
+            color: #1D2129;
+            text-decoration: none;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .related-link:hover {
+            color: #165DFF;
+        }
+
+        .related-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -1px;
+            left: 0;
+            background-color: #165DFF;
+            transition: width 0.3s ease;
+        }
+
+        .related-link:hover::after {
+            width: 100%;
+        }
     </style>
 </head>
+<body class="font-inter font-inter bg-gray-50 text-dark antialiased flex flex-col min-h-screen">
+<!-- 页头 -->
+<div id="header-placeholder"></div>
 
-<body class="font-inter bg-white text-dark antialiased flex flex-col min-h-screen">
-    <!-- 导航栏 -->
-    <header id="navbar" class="fixed w-full top-0 z-50 transition-navbar py-4 bg-white/80 backdrop-blur-sm">
-        <div class="container mx-auto px-4 md:px-6">
-            <nav class="flex items-center justify justify-between">
-                <a href="index.html" class="text-2xl font-bold text-primary flex items-center gap-2">
-                    <span>XILO的博客</span>
-                </a>
-
-                <!-- 桌面导航 -->
-                <ul class="hidden md:flex items items items-center space-x-8">
-                    <li><a href="index.html" class="font-medium hover:text-primary transition-colors">首页</a></li>
-                    <li><a href="all-articles.html" class="font-medium text-primary transition-colors">文章</a></li>
-                </ul>
-
-                <!-- 移动端菜单按钮 -->
-                <button id="menu-toggle" class="md:hidden text-dark focus:outline-none">
-                    <span class="fa fa-bars text-xl"></span>
-                </button>
-            </nav>
-
-            <!-- 移动端导航菜单 -->
-            <div id="mobile-menu" class="md:hidden hidden mt-4 pb-4">
-                <ul class="space-y-4">
-                    <li><a href="index.html" class="block font-medium hover:text-primary transition-colors">首页</a></li>
-                    <li><a href="all-articles.html" class="block font-medium text-primary transition-colors">文章</a></li>
-                </ul>
-            </div>
-        </div>
-    </header>
-
+<!-- 主内容区 - 使用main标签并应用flex:1确保页脚在底部 -->
+<main>
     <!-- 文章内容区 -->
-    <section class="pt-32 pb-16">
+    <section class="pt-32 pb-20">
         <div class="container mx-auto px-4 md:px-6">
-            <div class="max-w-3xl mx-auto">
-                <div id="status" class="mb-6 p-3 bg-yellow-100 text-yellow-800 rounded">
-                    正在加载文章...
-                </div>
 
-                <!-- 文章标题区 -->
-                <div id="article-header" class="mb-10 hidden">
-                    <div class="flex items-center text-sm text-muted mb-4">
-                        <span class="fa fa-folder-o mr-2"></span>
-                        <span id="article-category"></span>
-                        <span class="mx-2">•</span>
-                        <span class="fa fa-calendar-o mr-2"></span>
-                        <time id="article-date"></time>
+
+            <div class="flex flex-col lg:flex-row gap-8 lg:gap-12">
+                <!-- 主要文章内容 -->
+                <div class="lg:w-3/4 max-w-4xl w-full mx-auto">
+                    <!-- 加载状态 -->
+                    <div id="status" class="mb-8 p-4 bg-blue-50 text-blue-700 rounded-xl flex items-center shadow-sm">
+                        <span class="fa fa-circle-o-notch fa-spin mr-3 text-lg"></span>
+                        <span>正在加载文章...</span>
                     </div>
-                    <h1 id="article-title" class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold mb-6"></h1>
+
+                    <!-- 文章标题区 -->
+                    <div id="article-header" class="mb-10 hidden">
+                        
+                        <div class="flex flex-wrap items-center text-sm text-muted mb-4 gap-x-4 gap-y-2">
+                                <span class="flex items-center">
+                                    <span class="fa fa-folder-o mr-2"></span>
+                                    <span id="article-category"></span>
+                                </span>
+                            <span class="mx-2">•</span>
+                            <span class="flex items-center">
+                                    <span class="fa fa-calendar-o mr-2"></span>
+                                    <time id="article-date"></time>
+                                </span>
+                        </div>
+                        <h1 id="article-title" class="text-[clamp(1.8rem,5vw,2.8rem)] font-bold mb-6 text-balance text-dark leading-tight"></h1>
+                        <div class="w-20 h-1 bg-primary rounded-full"></div>
+                    </div>
+
+                    <!-- 文章内容区 - 初始状态设为隐藏 -->
+                    <div id="article-content" class="markdown-content article-card p-8 my-8 hidden"></div>
+
+                    <!-- 文章标签 (支持多分类) -->
+                    <div id="article-tags" class="mb-12 hidden flex flex-wrap gap-2"></div>
+
+                    <!-- 移动端相关文章 -->
+                    <div id="related-mobile" class="lg:hidden mt-10 hidden">
+                        <div class="related-card">
+                            <h3 class="text-xl font-semibold mb-4 flex items-center">
+                                <span class="fa fa-tags text-primary mr-2"></span>
+                                相关
+                            </h3>
+                            <div id="related-articles-mobile" class="space-y-1"></div>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- 文章内容区 -->
-                <div id="article-content" class="markdown-content bg-white rounded-xl p-6 shadow-sm border border-gray-100"></div>
-
-                <!-- 返回列表按钮 -->
-                <div class="mt-10 text-center">
-                    <a href="all-articles.html" class="inline-flex items-center px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
-                        <span class="fa fa-arrow-left mr-2"></span>
-                        返回文章列表
-                    </a>
+                <!-- 右侧相关文章 (桌面端) -->
+                <div class="lg:w-1/4 w-full hidden lg:block">
+                    <div class="related-card">
+                        <h3 class="text-xl font-semibold mb-4 flex items-center">
+                            <span class="fa fa-tags text-primary mr-2"></span>
+                            相关
+                        </h3>
+                        <div id="related-articles" class="space-y-1">
+                            <!-- 相关文章将通过JS动态加载 -->
+                            <div class="flex justify-center py-6">
+                                <div class="loader"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
+</main>
 
-    <!-- 页脚 -->
-    <footer class="bg-dark text-white py-12 mt-auto">
-        <div class="container mx mx-auto px-4 md:px-6">
-            <div class="flex flex-col md:flex-row justify-between items items-center">
-                <div class="mb-6 md:mb-0">
-                    <a href="#" class="text-2xl font-bold text-white flex flex items-center gap-2">
-                        <span>XILO的博客</span>
-                    </a>
-                    <p class="text-gray-400 mt-2 max-w-md">分享编程知识，记录技术成长，探索开发的无限可能。</p>
-                </div>
+<!-- 页脚 -->
+<div id="footer-placeholder"></div>
 
-                <div class="flex flex-col items-center md:items-end">
-                    <div class="flex gap-4 mb-4">
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors text-xl">
-                            <span class="fa fa-github"></span>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors text-xl">
-                            <span class="fa fa-twitter"></span>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors text-xl">
-                            <span class="fa fa-linkedin"></span>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors text-xl">
-                            <span class="fa fa-codepen"></span>
-                        </a>
-                    </div>
-                    <p class="text-gray-400 text-sm">© 2023 XILO的博客. 保留所有权利。</p>
-                </div>
-            </div>
-        </div>
-    </footer>
+<script type="module">
+    // 引入外部工具模块
+    import {Utils} from './utils.js';
 
-    <script>
-        // 扩展文章数据，添加markdown内容
-        const articlesData = [
-            {
-                id: 1,
-                title: "React性能优化的10个实用技巧",
-                category: "前端开发",
-                date: "2023-06-15",
-                image: "https://picsum.photos/seed/react/600/400",
-                description: "探索如何通过代码分割、懒加载和memoization等技术提升React应用的性能，让你的应用更加流畅。",
-                popularity: 85,
-                mdContent: `# React性能优化的10个实用技巧
+    // 加载并显示相关文章 - 支持多分类匹配
+    async function loadRelatedArticles(currentArticleId, articleCategories) {
+        try {
+            // 从Utils获取所有文章（字典数组）
+            const allArticles = Utils.getArticles();
 
-在构建大型React应用时，性能优化变得至关重要。本文将介绍10个实用的React性能优化技巧，帮助你构建更流畅的应用。
-
-## 1. 使用React.memo避免不必要的重渲染
-
-\`\`\`javascript
-const MemoizedComponent = React.memo(function MyComponent(props) {
-  // 只有当props发生变化时，才会重新渲染
-});
-\`\`\`
-
-## 2. 使用useMemo缓存计算结果
-
-对于昂贵的计算，可以使用\`useMemo\`来缓存结果：
-
-\`\`\`javascript
-const expensiveResult = useMemo(() => {
-  // 执行昂贵的计算
-  return calculateExpensiveValue(a, b);
-}, [a, b]); // 只有当a或b变化时才重新计算
-\`\`\`
-
-## 3. 使用useCallback缓存函数引用
-
-\`\`\`javascript
-const handleClick = useCallback(() => {
-  console.log('Clicked!', id);
-}, [id]); // 只有当id变化时，函数才会重新创建
-\`\`\`
-
-> 注意：不要过度使用这些优化手段，因为它们本身也有一定的开销。
-
-## 4. 实现代码分割
-
-使用React的\`lazy\`和\`Suspense\`进行组件的懒加载：
-
-\`\`\`javascript
-const OtherComponent = React.lazy(() => import('./OtherComponent'));
-
-function MyComponent() {
-  return (
-    <div>
-      <Suspense fallback={<div>Loading...</div>}>
-        <OtherComponent />
-      </Suspense>
-    </div>
-  );
-}
-\`\`\`
-
-更多优化技巧将在后续章节中介绍...
-`
-            },
-            // 其他文章数据...
-            {
-                id: 2,
-                title: "Tailwind CSS：原子化CSS的未来",
-                category: "CSS",
-                date: "2023-05-28",
-                image: "https://picsum.photos/seed/tailwind/600/400",
-                description: "从安装配置到高级技巧，全面介绍Tailwind CSS如何改变你的开发方式，提高样式开发效率。",
-                popularity: 92,
-                mdContent: `# Tailwind CSS：原子化CSS的未来
-
-Tailwind CSS是一个功能类优先的CSS框架，它直接在HTML中提供各种各样的类，使你能够在不离开HTML的情况下快速构建和定制设计。
-
-## 什么是原子化CSS？
-
-原子化CSS是一种CSS架构方法，它倡导使用小型、单一用途的类，每个类负责一个特定的样式。例如：
-
-\`\`\`html
-<div class="flex items-center justify-between p-4 bg-white rounded-lg shadow">
-  <!-- 内容 -->
-</div>
-\`\`\`
-
-## Tailwind的优势
-
-1. **开发速度快** - 不需要为样式命名和切换文件
-2. **响应式设计简单** - 内置响应式前缀
-3. **高度可定制** - 可以通过配置文件定制主题
-4. **减少CSS体积** - 生产环境自动移除未使用的样式
-
-## 响应式设计示例
-
-\`\`\`html
-<div class="text-sm md:text-base lg:text-lg">
-  这段文字在不同屏幕尺寸下有不同的大小
-</div>
-\`\`\`
-
-通过这种方式，你可以轻松实现各种复杂的响应式布局。
-`
+            if (!allArticles || !Array.isArray(allArticles)) {
+                throw new Error('获取文章列表失败');
             }
-            // 可以继续添加其他文章...
-        ];
 
-        // 简单的错误处理函数
-        function showError(message) {
-            const statusEl = document.getElementById('status');
-            statusEl.className = 'mb-6 p-3 bg-red-100 text-red-800 rounded';
-            statusEl.textContent = '错误: ' + message;
-        }
+            // 筛选出与当前文章有共同分类且不是当前文章的文章
+            const relatedArticles = allArticles.filter(article =>
+                article.id !== currentArticleId &&
+                article.categories &&
+                article.categories.length &&
+                // 检查是否有共同分类
+                article.categories.some(cat => articleCategories.includes(cat))
+            );
 
-        function showSuccess() {
-            const statusEl = document.getElementById('status');
-            statusEl.classList.add('hidden');
-            document.getElementById('article-header').classList.remove('hidden');
-        }
+            // 最多显示5篇相关文章
+            const limitedRelated = relatedArticles.slice(0, 5);
 
-        // 获取URL中的文章ID参数
-        function getArticleIdFromUrl() {
-            const params = new URLSearchParams(window.location.search);
-            return parseInt(params.get('id'));
-        }
+            // 清除加载动画
+            const relatedContainer = document.getElementById('related-articles');
+            relatedContainer.innerHTML = '';
 
-        // 页面加载完成后执行
-        window.onload = function() {
-            try {
-                // 检查marked库是否加载成功
-                if (typeof marked === 'undefined') {
-                    throw new Error('Markdown解析库未加载，请检查网络连接');
-                }
+            const relatedMobileContainer = document.getElementById('related-articles-mobile');
+            relatedMobileContainer.innerHTML = '';
 
-                // 获取文章ID
-                const articleId = getArticleIdFromUrl();
-                if (!articleId) {
-                    throw new Error('未找到文章ID');
-                }
+            if (limitedRelated.length > 0) {
+                // 为桌面端和移动端分别创建相关文章列表
+                limitedRelated.forEach(article => {
+                    // 桌面端
+                    const desktopItem = document.createElement('div');
+                    desktopItem.className = 'related-item';
+                    desktopItem.innerHTML = `
+                        <a href="article.html?id=${article.id}" class="related-link flex items-start">
+                            <span class="fa fa-angle-right text-primary mt-1 mr-2"></span>
+                            <span>${article.title}</span>
+                        </a>
+                    `;
+                    relatedContainer.appendChild(desktopItem);
 
-                // 查找对应的文章
-                const article = articlesData.find(item => item.id === articleId);
-                if (!article) {
-                    throw new Error('未找到对应的文章');
-                }
+                    // 移动端
+                    const mobileItem = document.createElement('div');
+                    mobileItem.className = 'related-item';
+                    mobileItem.innerHTML = `
+                        <a href="article.html?id=${article.id}" class="related-link flex items-start">
+                            <span class="fa fa-angle-right text-primary mt-1 mr-2"></span>
+                            <span>${article.title}</span>
+                        </a>
+                    `;
+                    relatedMobileContainer.appendChild(mobileItem);
+                });
 
-                // 填充文章信息
-                document.getElementById('article-title').textContent = article.title;
-                document.getElementById('article-category').textContent = article.category;
-                document.getElementById('article-date').textContent = article.date;
-                document.title = `${article.title} | XILO的博客`;
-
-                // 解析并显示Markdown内容
-                const html = marked.parse(article.mdContent);
-                document.getElementById('article-content').innerHTML = html;
-
-                // 代码高亮
-                Prism.highlightAll();
-
-                // 显示成功状态
-                showSuccess();
-
-            } catch (error) {
-                // 显示错误信息
-                showError(error.message);
-                console.error('加载文章失败:', error);
-            }
-        };
-
-        // 导航栏滚动效果
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 50) {
-                navbar.classList.add('py-2', 'shadow-md', 'bg-white/95');
-                navbar.classList.remove('py-4', 'bg-white/80');
+                // 显示移动端相关文章容器
+                document.getElementById('related-mobile').classList.remove('hidden');
             } else {
-                navbar.classList.add('py-4', 'bg-white/80');
-                navbar.classList.remove('py-2', 'shadow-md', 'bg-white/95');
+                // 没有相关文章时显示提示
+                relatedContainer.innerHTML = '<p class="text-muted text-center py-3">没有找到相关的文章</p>';
+                relatedMobileContainer.innerHTML = '<p class="text-muted text-center py-3">没有找到相关的文章</p>';
+                document.getElementById('related-mobile').classList.remove('hidden');
             }
-        });
+        } catch (error) {
+            console.error('加载相关文章失败:', error);
+            document.getElementById('related-articles').innerHTML = '<p class="text-red-500 text-center py-3">加载失败</p>';
+        }
+    }
 
-        // 移动端菜单切换
-        const menuToggle = document.getElementById('menu-toggle');
-        const mobileMenu = document.getElementById('mobile-menu');
-        menuToggle.addEventListener('click', function() {
-            mobileMenu.classList.toggle('hidden');
-        });
-    </script>
+    // 简单的错误处理函数
+    function showError(message) {
+        const statusEl = document.getElementById('status');
+        statusEl.className = 'mb-8 p-4 bg-red-50 text-red-700 rounded-xl flex items-center shadow-sm';
+        statusEl.innerHTML = '<span class="fa fa-exclamation-circle mr-3 text-lg"></span><span>错误: ' + message + '</span>';
+    }
+
+    function showSuccess() {
+        const statusEl = document.getElementById('status');
+        statusEl.classList.add('hidden');
+        document.getElementById('article-header').classList.remove('hidden');
+        document.getElementById('article-content').classList.remove('hidden'); // 显示文章内容
+        // 如果有分类，显示分类标签区域
+        if (document.getElementById('article-tags').children.length > 0) {
+            document.getElementById('article-tags').classList.remove('hidden');
+        }
+    }
+
+    // 获取URL中的文章ID参数
+    function getArticleIdFromUrl() {
+        const params = new URLSearchParams(window.location.search);
+        return parseInt(params.get('id'));
+    }
+
+    // 页面加载完成后执行 - 修改为异步函数
+    async function initPage() {
+        // 先加载并应用配置
+        const config = await Utils.loadConfig();
+
+        try {
+            // 加载文章数据（假设Utils.loadArticles()会填充文章列表）
+            await Utils.loadArticles();
+
+            // 获取所有文章列表进行验证
+            const allArticles = Utils.getArticles();
+            if (!allArticles || !Array.isArray(allArticles)) {
+                throw new Error('文章列表获取失败或格式不正确');
+            }
+            console.log('文章加载完成，共', allArticles.length, '篇文章');
+
+            // 检查marked库是否加载成功
+            if (typeof marked === 'undefined') {
+                throw new Error('Markdown解析库未加载，请检查网络连接');
+            }
+
+            // 获取文章ID
+            const articleId = getArticleIdFromUrl();
+            if (!articleId || isNaN(articleId)) {
+                throw new Error('未找到有效的文章ID');
+            }
+
+            // 查找对应的文章
+            const article = Utils.getArticleById(articleId);
+            if (!article) {
+                throw new Error('未找到对应的文章');
+            }
+
+            // 填充文章信息
+            document.getElementById('article-title').textContent = article.title;
+
+            // 处理多分类显示（用中文逗号分隔）
+            const categoriesText = article.categories && article.categories.length
+                ? article.categories.join('，')
+                : '未分类';
+            document.getElementById('article-category').textContent = categoriesText;
+
+            document.getElementById('article-date').textContent = article.date || '未知日期';
+            document.title = `${article.title} | XILO的博客`;
+
+            // 处理多分类标签显示
+            const tagsContainer = document.getElementById('article-tags');
+            tagsContainer.innerHTML = ''; // 清空现有内容
+
+            if (article.categories && article.categories.length) {
+                // 添加所有分类标签
+                article.categories.forEach(category => {
+                    const tagElement = document.createElement('span');
+                    tagElement.className = 'px-3 py-1 bg-gray-100 text-muted rounded-full text-sm mr-2 mb-2';
+                    tagElement.textContent = category;
+                    tagsContainer.appendChild(tagElement);
+                });
+
+                // 加载相关文章（使用所有分类匹配）
+                await loadRelatedArticles(articleId, article.categories);
+                // 显示标签区域
+                document.getElementById('article-tags').classList.remove('hidden');
+            } else {
+                // 如果没有分类，隐藏标签区域和相关文章
+                tagsContainer.innerHTML = '';
+                document.getElementById('article-tags').classList.add('hidden');
+                document.getElementById('related-articles').innerHTML = '<p class="text-muted text-center py-3">该文章没有分类，无法推荐相关文章</p>';
+            }
+
+            // 异步获取并解析Markdown内容
+            const mdContent = await Utils.getArticleContent(articleId);
+            const html = marked.parse(mdContent);
+            document.getElementById('article-content').innerHTML = html;
+
+            // 代码高亮
+            Prism.highlightAll();
+
+            // 显示成功状态
+            showSuccess();
+
+        } catch (error) {
+            // 显示错误信息
+            showError(error.message);
+            console.error('加载文章失败:', error);
+        }
+    }
+
+    // 页面加载完成后执行
+    document.addEventListener('DOMContentLoaded', initPage);
+</script>
+
 </body>
 </html>

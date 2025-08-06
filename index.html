@@ -1,155 +1,75 @@
-﻿<html lang="zh-CN"><head>
+﻿<html lang="zh-CN">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XILO的博客 | 程序员博客</title>
-    <!-- 引入Tailwind CSS -->
+    <title>XILO的博客</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- 引入Font Awesome -->
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <!-- 引入Google字体 -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
-
-    <!-- Tailwind配置 -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#165DFF',
-                        secondary: '#36CFC9',
-                        dark: '#1D2129',
-                        light: '#F2F3F5',
-                        muted: '#86909C'
-                    },
-                    fontFamily: {
-                        inter: ['Inter', 'sans-serif'],
-                    },
-                },
-            }
-        }
-    </script>
-
-    <style type="text/tailwindcss">
-        @layer utilities {
-            .content-auto {
-                content-visibility: auto;
-            }
-            .text-balance {
-                text-wrap: balance;
-            }
-            .transition-navbar {
-                transition: background-color 0.3s, padding 0.3s, box-shadow 0.3s;
-            }
-            .bg-pattern {
-                background-color: #f9fafb;
-
-                background-size: 20px 20px;
-                background-position: 0 0, 10px 10px;
-            }
-            .article-hover {
-                transition: transform 0.3s, box-shadow 0.3s;
-            }
-            .article-hover:hover {
-                transform: translateY(-3px);
-            }
-        }
-    </style>
+    <script src="./tailwind.config.js"></script>
+    <link rel="stylesheet" href="./tailwind-utilities.css">
 </head>
-
-<body class="font-inter bg-white text-dark antialiased">
-<!-- 导航栏 -->
-<header id="navbar" class="fixed w-full top-0 z-50 transition-navbar py-4 bg-white/80 backdrop-blur-sm">
-    <div class="container mx-auto px-4 md:px-6">
-        <nav class="flex items-center justify-between">
-            <a href="#" class="text-2xl font-bold text-primary flex items-center gap-2">
-                <span>XILO的博客</span>
-            </a>
-
-            <!-- 桌面导航 -->
-            <ul class="hidden md:flex items-center space-x-8">
-                <li><a href="#home" class="font-medium hover:text-primary transition-colors">首页</a></li>
-                <li><a href="#articles" class="font-medium hover:text-primary transition-colors">文章</a></li>
-            </ul>
-
-            <!-- 移动端菜单按钮 -->
-            <button id="menu-toggle" class="md:hidden text-dark focus:outline-none">
-                <span class="fa fa-bars text-xl"></span>
-            </button>
-        </nav>
-
-        <!-- 移动端导航菜单 -->
-        <div id="mobile-menu" class="md:hidden hidden mt-4 pb-4">
-            <ul class="space-y-4">
-                <li><a href="#home" class="block font-medium hover:text-primary transition-colors">首页</a></li>
-                <li><a href="#articles" class="block font-medium hover:text-primary transition-colors">文章</a></li>
-            </ul>
-        </div>
-    </div>
-</header>
-
-<!-- 英雄区 -->
+<body class="font-inter font-inter bg-gray-50 text-dark antialiased flex flex-col min-h-screen">
+<!-- 页头 -->
+<div id="header-placeholder"></div>
+<!-- 个人介绍 -->
 <section id="home" class="pt-32 pb-20 md:pt-40 md:pb-28 bg-gradient-to-b from-light to-white relative overflow-hidden">
-    <!-- 装饰性背景元素 -->
+    <!-- 装饰背景 -->
     <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-10">
         <div class="absolute -top-24 -right-24 w-96 h-96 bg-primary rounded-full"></div>
         <div class="absolute top-1/3 -left-32 w-64 h-64 bg-secondary rounded-full"></div>
     </div>
 
     <div class="container mx-auto px-4 md:px-6 relative z-10">
-        <!-- 横向布局 - 已交换头像和介绍的位置 -->
         <div class="flex flex-col md:flex-row items-center gap-12">
-            <div class="md:w-1/2 relative flex justify-center order-2 md:order-1">
-                <!-- 圆形头像 -->
+            <!-- 头像 -->
+            <div class="md:w-1/2 relativeative flex justify-center order-2 md:order-1">
                 <div class="relative z-10 rounded-full overflow-hidden shadow-2xl w-64 h-64 md:w-80 md:h-80 border-4 border-white">
-                    <img src="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/87b1a8caefea423eabd2ebb566bfaa31~tplv-a9rns2rl98-image.image?rk3s=8e244e95&amp;rrcfp=e75484ac&amp;x-expires=1755192391&amp;x-signature=zSjxMuDld3E80Q1JgiT5jQHbesU%3D" alt="XILO照片" class="w-full h-full object-cover">
+                    <img id="avatar" src="" alt="头像" class="w-full h-full object-cover">
                 </div>
                 <div class="absolute -bottom-6 -left-6 w-64 h-64 bg-primary/10 rounded-full -z-10"></div>
                 <div class="absolute -top-6 -right-6 w-40 h-40 bg-secondary/20 rounded-full -z-10"></div>
             </div>
+            <!-- 个人信息 -->
             <div class="md:w-1/2 space-y-6 order-1 md:order-2">
                 <h1 class="text-[clamp(2.5rem,5vw,4rem)] font-bold leading-tight">
-                    <span class="text-primary">XILO</span>
+                    <span class="text-primary" id="hero-name"></span>
                 </h1>
-                <p class="text-lg md:text-xl text-muted max-w-xl text-balance">
-                    古希腊掌管可乐的神
-                </p>
-                <div class="flex flex-wrap gap-4 pt-4">
-                    <a href="#articles" class="px-6 py-3 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">
-                        浏览文章
-                    </a>
-                </div>
+                <p class="text-lg md:text-xl text-muted max-w-xl text-balance" id="hero-intro"></p>
+                <!-- 联系 -->
                 <div class="flex gap-4 pt-6">
-                    <a href="#" class="text-muted hover:text-primary transition-colors text-xl">
+                    <a id="github-link" href="" class="text-muted hoveror:text-primary transition-colors text-xl" title="GitHub">
                         <span class="fa fa-github"></span>
                     </a>
-                    <a href="#" class="text-muted hover:text-primary transition-colors text-xl">
-                        <span class="fa fa-twitter"></span>
-                    </a>
-                    <a href="#" class="text-muted hover:text-primary transition-colors text-xl">
-                        <span class="fa fa-linkedin"></span>
-                    </a>
-                    <a href="#" class="text-muted hover:text-primary transition-colors text-xl">
-                        <span class="fa fa-codepen"></span>
+                    <a id="qq-link" href="" class="text-muted hover:text-primary transition-colors text-xl" title="QQ">
+                        <span class="fa fa-qq"></span>
                     </a>
                 </div>
             </div>
         </div>
     </div>
 </section>
-<!-- 特色文章 -->
+<!-- 最新文章 -->
 <section id="articles" class="py-20 bg-pattern">
     <div class="container mx-auto px-4 md:px-6">
+        <!-- 标题 -->
         <div class="text-center mb-16">
             <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold mb-4">最新文章</h2>
-            <p class="text-muted max-w-2xl mx-auto">分享我的编程经验、技术见解和开发心得，希望能帮助到同样热爱编程的你。</p>
+            <p class="text-muted max-w-2xl mx-auto" id="latest-articles-quote"></p>
         </div>
-
+        <!-- 文章列表 -->
         <div id="articles-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- 文章将通过JavaScript动态生成 -->
+            <!-- 加载指示器 -->
+            <div class="col-span-full text-center py-16" id="loading-indicator">
+                <div class="loader mx-auto"></div>
+                <p class="text-muted text-lg mt-4">加载文章中...</p>
+            </div>
         </div>
 
+        <!-- 查看更多 -->
         <div class="text-center mt-12">
-            <a href="all-articles.html " class="inline-flex items-center px-6 py-3 border border-primary text-primary rounded-lg font-medium hover:bg-primary/5 transition-colors">
+            <a href="all-articles.html"
+               class="inline-flex items-center px-6 py-3 border border-primary text-primary rounded-lg font-medium hover:bg-primary/5 transition-colors">
                 查看所有文章
                 <span class="fa fa-chevron-right ml-2 text-sm"></span>
             </a>
@@ -158,180 +78,60 @@
 </section>
 
 <!-- 页脚 -->
-<footer class="bg-dark text-white py-12">
-    <div class="container mx-auto px-4 md:px-6">
-        <div class="flex flex-col md:flex-row justify-between items-center">
-            <div class="mb-6 md:mb-0">
-                <a href="#" class="text-2xl font-bold text-white flex items-center gap-2">
-                    <span>XILO的博客</span>
-                </a>
-                <p class="text-gray-400 mt-2 max-w-md">分享编程知识，记录技术成长，探索开发的无限可能。</p>
-            </div>
+<div id="footer-placeholder"></div>
 
-            <div class="flex flex-col items-center md:items-end">
-                <div class="flex gap-4 mb-4">
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors text-xl">
-                        <span class="fa fa-github"></span>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors text-xl">
-                        <span class="fa fa-twitter"></span>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors text-xl">
-                        <span class="fa fa-linkedin"></span>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors text-xl">
-                        <span class="fa fa-codepen"></span>
-                    </a>
+<script type="module">
+    // 引入外部工具模块
+    import {Utils} from './utils.js';
+
+    document.addEventListener('DOMContentLoaded', async function () {
+        // 加载并应用配置
+        const config = await Utils.loadConfig();
+        // 介绍内容
+        document.getElementById('hero-name').textContent = config.name;
+        document.getElementById('hero-intro').textContent = config.introduction;
+        document.getElementById('avatar').src = config.avatar;
+        document.getElementById('avatar').alt = `${config.name}头像`;
+        // 链接设置
+        document.getElementById('github-link').href = config.links.github;
+        document.getElementById('qq-link').href = config.links.qq;
+
+        // 最新文章区域描述
+        document.getElementById('latest-articles-quote').textContent = config.latestArticlesQuote;
+
+        try {
+            // 加载文章数据并显示最新3篇
+            await Utils.loadArticles();
+            const allArticles = Utils.getArticles();
+            // 按日期排序，取最新3篇
+            const articles = [...allArticles]
+                .sort((a, b) => new Date(b.date) - new Date(a.date))
+                .slice(0, 3);
+            // 渲染文章列表
+            const articlesContainer = document.getElementById('articles-container');
+            // 清空加载指示器
+            articlesContainer.innerHTML = '';
+            if (articles.length === 0) {
+                articlesContainer.innerHTML = `
+            <div class="col-span-full text-center py-16">
+                <p class="text-muted text-lg">暂无文章</p>
+            </div>
+            `;
+                return;
+            }
+            // 遍历文章数据，生成卡片
+            articles.forEach(article => {
+                articlesContainer.appendChild(Utils.createArticlesCard(article));
+            });
+        } catch (error) {
+            console.error('加载文章失败:', error);
+            const container = document.getElementById('articles-container');
+            container.innerHTML = `
+                <div class="col-span-full text-center py-16">
+                    <p class="text-muted text-lg">文章加载失败，请稍后再试</p>
                 </div>
-                <p class="text-gray-400 text-sm">© 2023 XILO的博客. 保留所有权利。</p>
-            </div>
-        </div>
-    </div>
-</footer>
-
-<!-- 返回顶部按钮 -->
-<button id="back-to-top" class="fixed bottom-8 right-8 bg-primary text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg opacity-0 invisible transition-all duration-300 hover:bg-primary/90">
-    <span class="fa fa-chevron-up"></span>
-</button>
-
-<!-- JavaScript -->
-<script>
-    // 文章数据字典
-    const articles = [
-        {
-            id: 1,
-            title: "React性能优化的10个实用技巧",
-            coverImage: "https://picsum.photos/seed/react/600/400",
-            date: "2023-06-15",
-            category: "前端开发",
-            summary: "探索如何通过代码分割、懒加载和memoization等技术提升React应用的性能，让你的应用更加流畅。",
-            url: "#"
-        },
-        {
-            id: 2,
-            title: "Tailwind CSS：原子化CSS的未来",
-            coverImage: "https://picsum.photos/seed/tailwind/600/400",
-            date: "2023-05-28",
-            category: "CSS",
-            summary: "从安装配置到高级技巧，全面介绍Tailwind CSS如何改变你的开发方式，提高样式开发效率。",
-            url: "#"
-        },
-        {
-            id: 3,
-            title: "TypeScript高级类型系统全解析",
-            coverImage: "https://picsum.photos/seed/typescript/600/400",
-            date: "2023-04-12",
-            category: "TypeScript",
-            summary: "深入探讨TypeScript的高级类型特性，包括泛型、条件类型、映射类型等，让你的代码更加健壮。",
-            url: "#"
+            `;
         }
-    ];
-
-    // 生成文章列表
-    const articlesContainer = document.getElementById('articles-container');
-
-    articles.forEach(article => {
-        const articleElement = document.createElement('article');
-        articleElement.className = 'article-hover';
-        articleElement.innerHTML = `
-            <div class="h-48 overflow-hidden rounded-xl mb-4">
-                <img src="${article.coverImage}" alt="${article.title}文章封面" class="w-full h-full object-cover">
-            </div>
-            <div class="space-y-3">
-                <div class="flex items-center text-sm text-muted">
-                    <span class="fa fa-calendar-o mr-2"></span>
-                    <time>${article.date}</time>
-                    <span class="mx-2">•</span>
-                    <span class="fa fa-folder-o mr-2"></span>
-                    <span>${article.category}</span>
-                </div>
-                <h3 class="text-xl font-semibold hover:text-primary transition-colors">
-                    <a href="${article.url}">${article.title}</a>
-                </h3>
-                <p class="text-muted line-clamp-3">${article.summary}</p>
-                <a href="${article.url}" class="inline-flex items-center font-medium text-primary hover:text-primary/80 transition-colors">
-                    阅读更多
-                    <span class="fa fa-long-arrow-right ml-2"></span>
-                </a>
-            </div>
-        `;
-        articlesContainer.appendChild(articleElement);
-    });
-    
-    // 导航栏滚动效果
-    const navbar = document.getElementById('navbar');
-    const backToTop = document.getElementById('back-to-top');
-
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 50) {
-            navbar.classList.add('shadow-md', 'py-2');
-            navbar.classList.remove('py-4');
-
-            backToTop.classList.remove('opacity-0', 'invisible');
-            backToTop.classList.add('opacity-100', 'visible');
-        } else {
-            navbar.classList.remove('shadow-md', 'py-2');
-            navbar.classList.add('py-4');
-
-            backToTop.classList.add('opacity-0', 'invisible');
-            backToTop.classList.remove('opacity-100', 'visible');
-        }
-    });
-
-    // 移动端菜单切换
-    const menuToggle = document.getElementById('menu-toggle');
-    const mobileMenu = document.getElementById('mobile-menu');
-
-    menuToggle.addEventListener('click', function() {
-        mobileMenu.classList.toggle('hidden');
-    });
-
-    // 平滑滚动
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-
-            // 关闭移动端菜单
-            if (!mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.add('hidden');
-            }
-
-            const targetId = this.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
-
-            if (targetElement) {
-                window.scrollTo({
-                    top: targetElement.offsetTop - 80,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-
-    // 返回顶部按钮
-    backToTop.addEventListener('click', function() {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
-
-    // 图片加载动画
-    document.addEventListener('DOMContentLoaded', function() {
-        const images = document.querySelectorAll('img');
-        images.forEach(img => {
-            img.classList.add('opacity-0', 'transition-opacity', 'duration-500');
-            img.onload = function() {
-                this.classList.remove('opacity-0');
-                this.classList.add('opacity-100');
-            };
-            // 如果图片已经缓存
-            if (img.complete) {
-                img.classList.remove('opacity-0');
-                img.classList.add('opacity-100');
-            }
-        });
     });
 </script>
-</body></html>
-    
+</body>

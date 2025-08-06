@@ -1,0 +1,36 @@
+﻿<!-- 导航栏区域 -->
+<header id="navbar" class="fixed w-full top-0 z-50 transition-navbar py-4 bg-white/90 backdrop-blur-md">
+    <div class="container mx-auto px-4 md:px-6">
+        <nav class="flex items-center justify-between">
+            <!-- 网站标题 -->
+            <a href="index.html" class="text-2xl font-bold text-primary flex items items-center gap-2 group">
+                <span class="transition-transform duration-300 group-hover:translate-x-1" id="navbar-title">XILO的博客</span>
+            </a>
+
+            <!-- 桌面端导航菜单 -->
+            <ul class="hidden md:flex items-center space-x-8">
+                <li><a href="index.html"
+                       class="font-medium hoveror:text-primary transition-colors relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all hover:after:w-full">首页</a>
+                </li>
+                <li><a href="all-articles.html"
+                       class="font-medium hover:text-primary transition-colors relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all hover:after:w-full">文章</a>
+                </li>
+            </ul>
+
+            <!-- 移动端菜单按钮 -->
+            <button id="menu-toggle" class="md:hidden text-dark focus:outline-none p-2 rounded-full hover:bg-gray-100 transition-colors">
+                <span class="fa fa-bars text-xl"></span>
+            </button>
+        </nav>
+
+        <!-- 移动端导航菜单（默认隐藏） -->
+        <div id="mobile-menu" class="md:hidden hidden mt-4 pb-4 animate-fadeIn">
+            <ul class="space-y-3">
+                <li><a href="index.html"
+                       class="block py-2 px-3 font-medium hover:text-primary transition-colors rounded-lg hover:bg-gray-50">首页</a></li>
+                <li><a href="all-articles.html"
+                       class="block py-2 px-3 font-medium hover:text-primary transition-colors rounded-lg hover:bg-gray-50">文章</a></li>
+            </ul>
+        </div>
+    </div>
+</header>

@@ -1,0 +1,43 @@
+﻿/* tailwind-utilities.css */
+@layer utilities {
+    .content-auto {
+        content-visibility: auto;
+    }
+
+    .text-balance {
+        text-wrap: balance;
+    }
+
+    .transition-navbar {
+        transition: background-color 0.3s, padding 0.3s, box-shadow 0.3s;
+    }
+
+    .bg-pattern {
+        background-color: #f9fafb;
+        background-size: 20px 20px;
+        background-position: 0 0, 10px 10px;
+    }
+
+    .article-hover {
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .article-hover:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    }
+
+    .loader {
+        width: 48px;
+        height: 48px;
+        border: 5px solid #f3f3f3;
+        border-bottom-color: #165DFF;
+        border-radius: 50%;
+        animation: rotation 1s linear infinite;
+    }
+
+    @keyframes rotation {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+}

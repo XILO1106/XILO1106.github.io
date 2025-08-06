@@ -1,121 +1,20 @@
-﻿<!DOCTYPE html>
-<html lang="zh-CN">
+﻿<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>全部文章 | XILO的博客</title>
-    <!-- 引入Tailwind CSS -->
+    <title>XILO的博客</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- 引入Font Awesome -->
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <!-- 引入Google字体 -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
-
-    <!-- Tailwind配置 -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#165DFF',
-                        secondary: '#36CFC9',
-                        dark: '#1D2129',
-                        light: '#F2F3F5',
-                        muted: '#86909C'
-                    },
-                    fontFamily: {
-                        inter: ['Inter', 'sans-serif'],
-                    },
-                },
-            }
-        }
-    </script>
-
-    <style type="text/tailwindcss">
-        @layer utilities {
-            .content-auto {
-                content-visibility: auto;
-            }
-
-            .text-balance {
-                text-wrap: balance;
-            }
-
-            .transition-navbar {
-                transition: background-color 0.3s, padding 0.3s, box-shadow 0.3s;
-            }
-
-            .bg-pattern {
-                background-color: #f9fafb;
-                background-size: 20px 20px;
-                background-position: 0 0, 10px 10px;
-            }
-
-            .article-hover {
-                transition: transform 0.3s, box-shadow 0.3s;
-            }
-
-            .article-hover:hover {
-                transform: translateY(-3px);
-                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            }
-
-            .filter-active {
-                background-color: #165DFF;
-                color: white;
-            }
-
-            .page-active {
-                background-color: #165DFF;
-                color: white;
-            }
-        }
-    </style>
+    <script src="./tailwind.config.js"></script>
+    <link rel="stylesheet" href="./tailwind-utilities.css">
 </head>
+<body class="font-inter font-inter bg-gray-50 text-dark antialiased flex flex-col min-h-screen">
+<!-- 页头 -->
+<div id="header-placeholder"></div>
 
-<body class="font-inter bg-white text-dark antialiased flex flex-col min-h-screen">
-<!-- 导航栏 -->
-<header id="navbar" class="fixed w-full top-0 z-50 transition-navbar py-4 bg-white/80 backdrop-blur-sm">
-    <div class="container mx-auto px-4 md:px-6">
-        <nav class="flex items-center justify justify-between">
-            <a href="#" class="text-2xl font-bold text-primary flex items-center gap-2">
-                <span>XILO的博客</span>
-            </a>
-
-            <!-- 桌面导航 -->
-            <ul class="hidden md:flex items items items-center space-x-8">
-                <li><a href="index.html" class="font-medium hover:text-primary transition-colors">首页</a></li>
-                <li><a href="all-articles.html" class="font-medium text-primary transition-colors">文章</a></li>
-            </ul>
-
-            <!-- 移动端菜单按钮 -->
-            <button id="menu-toggle" class="md:hidden text-dark focus:outline-none">
-                <span class="fa fa-bars text-xl"></span>
-            </button>
-        </nav>
-
-        <!-- 移动端导航菜单 -->
-        <div id="mobile-menu" class="md:hidden hidden mt-4 pb-4">
-            <ul class="space-y-4">
-                <li><a href="index.html" class="block font-medium hover:text-primary transition-colors">首页</a></li>
-                <li><a href="all-articles.html" class="block font-medium text-primary transition-colors">文章</a></li>
-            </ul>
-        </div>
-    </div>
-</header>
-
-<!-- 页面标题区 -->
-<section class="pt-32 pb-16 bg-pattern">
-    <div class="container mx-auto px-4 md:px-6">
-        <div class="text-center max-w-3xl mx-auto">
-            <h1 class="text-[clamp(2rem,4vw,3rem)] font-bold mb-4">全部文章</h1>
-            <p class="text-muted text-lg">探索所有技术文章，从前端开发到编程语言，从基础入门到高级技巧</p>
-        </div>
-    </div>
-</section>
-
-<!-- 搜索和筛选区 -->
-<section class="py-8 bg-white border-y border-gray-100">
+<!-- 搜索和筛选区 - 直接放在导航栏下方，减少空白 -->
+<section class="pt-20 pb-8 bg-white border-b border-gray-100">
     <div class="container mx-auto px-4 md:px-6">
         <div class="flex flex-col md:flex-row gap-6">
             <!-- 搜索框 -->
@@ -128,32 +27,24 @@
                 >
             </div>
 
-            <!-- 分类筛选（将通过JavaScript自动生成） -->
+            <!-- 分类筛选 -->
             <div class="flex flex-wrap gap-2 items-center" id="categories-container">
                 <span class="text-muted whitespace-nowrap hidden sm:inline">分类:</span>
                 <!-- 分类按钮将在这里自动生成 -->
             </div>
         </div>
 
-        <!-- 结果统计和排序 -->
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mt-6 gap-4">
+        <!-- 结果统计 -->
+        <div class="flex justify-between items-start sm:items-center mt-6">
             <p class="text-muted" id="result-count">找到 <span class="font-medium text-dark">9</span> 篇文章</p>
-            <div class="flex items-center gap-4">
-                <span class="text-muted whitespace-nowrap">排序:</span>
-                <select id="sort-select"
-                        class="border border-gray-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
-                    <option value="latest">最新发布</option>
-                    <option value="oldest">最早发布</option>
-                    <option value="popular">热门优先</option>
-                </select>
-            </div>
         </div>
     </div>
 </section>
 
-<!-- 文章列表 - 每页最多6篇文章 -->
-<section class="py-16 bg-white flex-grow">
+<!-- 文章列表 - 恢复网格布局 -->
+<section class="py-12 bg-white flex-grow">
     <div class="container mx-auto px-4 md:px-6">
+        <!-- 恢复响应式网格布局 -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="articles-container">
             <!-- 文章将通过JavaScript从字典加载 -->
         </div>
@@ -162,6 +53,10 @@
         <div class="flex justify-center mt-16" id="pagination-container">
             <nav class="inline-flex rounded-md shadow-sm -space-x-px" aria-label="分页">
                 <button class="page-btn relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                        id="first-page">
+                    <span class="fa fa-step-backward"></span>
+                </button>
+                <button class="page-btn relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
                         id="prev-page">
                     <span class="fa fa-chevron-left"></span>
                 </button>
@@ -171,221 +66,130 @@
                 <button class="page-btn relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
                         data-page="2">2
                 </button>
-                <button class="page-btn relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                <button class="page-btn relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
                         id="next-page">
                     <span class="fa fa-chevron-right"></span>
+                </button>
+                <button class="page-btn relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                        id="last-page">
+                    <span class="fa fa-step-forward"></span>
                 </button>
             </nav>
         </div>
     </div>
 </section>
 
+
 <!-- 页脚 -->
-<footer class="bg-dark text-white py-12">
-    <div class="container mx mx-auto px-4 md:px-6">
-        <div class="flex flex-col md:flex-row justify-between items items-center">
-            <div class="mb-6 md:mb-0">
-                <a href="#" class="text-2xl font-bold text-white flex flex items-center gap-2">
-                    <span>XILO的博客</span>
-                </a>
-                <p class="text-gray-400 mt-2 max-w-md">分享编程知识，记录技术成长，探索开发的无限可能。</p>
-            </div>
+<div id="footer-placeholder"></div>
 
-            <div class="flex flex-col items-center md:items-end">
-                <div class="flex gap-4 mb-4">
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors text-xl">
-                        <span class="fa fa-github"></span>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors text-xl">
-                        <span class="fa fa-twitter"></span>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors text-xl">
-                        <span class="fa fa-linkedin"></span>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors text-xl">
-                        <span class="fa fa-codepen"></span>
-                    </a>
-                </div>
-                <p class="text-gray-400 text-sm">© 2023 XILO的博客. 保留所有权利。</p>
-            </div>
-        </div>
-    </div>
-</footer>
+<script type="module">
+    import {Utils} from './utils.js';
 
-<!-- 返回顶部按钮 -->
-<button id="back-to-top"
-        class="fixed bottom-8 right-8 bg-primary text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg opacity-0 invisible transition-all duration-300 hover:bg-primary/90">
-    <span class="fa fa-chevron-up"></span>
-</button>
+    document.addEventListener('DOMContentLoaded', async function () {
+        try {
+            const config = await Utils.loadConfig();
+            await Utils.loadArticles();
+            console.log('文章加载完成:', Utils.getArticles());
+            initPage(Utils.getArticles());
+        } catch (error) {
+            console.error('页面初始化失败:', error);
+        }
+    });
 
-<script>
-    // 文章数据字典 - 分类直接使用显示名称，无需单独设置标识
-    const articlesData = [
-        // 第1页文章
-        {
-            id: 1,
-            title: "React性能优化的10个实用技巧",
-            category: "前端开发",  // 直接使用显示名称作为分类标识
-            date: "2023-06-15",
-            image: "https://picsum.photos/seed/react/600/400",
-            description: "探索如何通过代码分割、懒加载和memoization等技术提升React应用的性能，让你的应用更加流畅。",
-            popularity: 85
-        },
-        {
-            id: 2,
-            title: "Tailwind CSS：原子化CSS的未来",
-            category: "CSS",  // 直接使用显示名称作为分类标识
-            date: "2023-05-28",
-            image: "https://picsum.photos/seed/tailwind/600/400",
-            description: "从安装配置到高级技巧，全面介绍Tailwind CSS如何改变你的开发方式，提高样式开发效率。",
-            popularity: 92
-        },
-
-    ];
-
-    // 全局变量
     let currentPage = 1;
     let currentCategory = 'all';
     let currentSearchTerm = '';
-    let currentSort = 'latest';
-    const articlesPerPage = 6;
+    const articlesPerPage = 9;
 
-    // 页面加载完成后初始化
-    document.addEventListener('DOMContentLoaded', function () {
+    function initPage(articlesData) {
         const articlesContainer = document.getElementById('articles-container');
         const resultCount = document.querySelector('#result-count span');
         const categoriesContainer = document.getElementById('categories-container');
         const searchInput = document.getElementById('search-input');
-        const sortSelect = document.getElementById('sort-select');
-        const prevPageButton = document.getElementById('prev-page');
-        const nextPageButton = document.getElementById('next-page');
         const backToTopButton = document.getElementById('back-to-top');
 
-        // 提取所有唯一分类并生成筛选按钮
-        generateCategoryButtons();
+        categoriesContainer.innerHTML = '<span class="text-muted whitespace-nowrap hidden sm:inline">分类:</span>';
+        const categories = new Set();
+        articlesData.forEach(article => {
+            if (article.categories && Array.isArray(article.categories)) {
+                article.categories.forEach(cat => {
+                    if (cat) categories.add(cat);
+                });
+            }
+        });
 
-        // 初始化页面
+        const allButton = document.createElement('button');
+        allButton.className = 'filter-btn filter-active px-4 py-2 rounded-full text-sm transition-colors bg-primary text-white';
+        allButton.dataset.category = 'all';
+        allButton.textContent = '全部';
+        categoriesContainer.appendChild(allButton);
+
+        Array.from(categories).forEach(category => {
+            const button = document.createElement('button');
+            button.className = 'filter-btn px-4 py-2 rounded-full text-sm bg-gray-100 hover:bg-gray-200 transition-colors';
+            button.dataset.category = category;
+            button.textContent = category;
+            categoriesContainer.appendChild(button);
+        });
+
+        document.querySelectorAll('.filter-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.remove('filter-active', 'bg-primary', 'text-white');
+                    btn.classList.add('bg-gray-100');
+                });
+                this.classList.add('filter-active', 'bg-primary', 'text-white');
+                this.classList.remove('bg-gray-100');
+                currentCategory = this.dataset.category;
+                currentPage = 1;
+                renderArticles();
+                updatePagination();
+            });
+        });
+
         renderArticles();
         updatePagination();
 
-        // 生成分类筛选按钮
-        function generateCategoryButtons() {
-            // 提取所有唯一分类
-            const categories = new Set();
-            articlesData.forEach(article => {
-                categories.add(article.category);
-            });
 
-            // 创建"全部"按钮
-            const allButton = document.createElement('button');
-            allButton.className = 'filter-btn filter-active px-4 py-2 rounded-full text-sm transition-colors bg-primary text-white';
-            allButton.dataset.category = 'all';
-            allButton.textContent = '全部';
-            categoriesContainer.appendChild(allButton);
-
-            // 为每个分类创建按钮
-            Array.from(categories).forEach(category => {
-                const button = document.createElement('button');
-                button.className = 'filter-btn px-4 py-2 rounded-full text-sm bg-gray-100 hover:bg-gray-200 transition-colors';
-                button.dataset.category = category;  // 使用分类名称作为标识
-                button.textContent = category;       // 显示分类名称
-                categoriesContainer.appendChild(button);
-            });
-
-            // 为所有筛选按钮添加点击事件
-            document.querySelectorAll('.filter-btn').forEach(button => {
-                button.addEventListener('click', function () {
-                    // 更新活跃状态
-                    document.querySelectorAll('.filter-btn').forEach(btn => {
-                        btn.classList.remove('filter-active', 'bg-primary', 'text-white');
-                        btn.classList.add('bg-gray-100');
-                    });
-                    this.classList.add('filter-active', 'bg-primary', 'text-white');
-                    this.classList.remove('bg-gray-100');
-
-                    // 更新当前分类并重新渲染
-                    currentCategory = this.dataset.category;
-                    currentPage = 1; // 重置到第一页
-                    renderArticles();
-                    updatePagination();
-                });
-            });
-        }
-
-        // 渲染文章函数
         function renderArticles() {
-            // 清空容器
+
             articlesContainer.innerHTML = '';
 
-            // 筛选文章
             let filteredArticles = articlesData.filter(article => {
-                // 分类筛选 - 直接比较分类名称
-                const categoryMatch = currentCategory === 'all' || article.category === currentCategory;
-                // 搜索筛选
+
+                const categoryMatch = currentCategory === 'all' ||
+                    (article.categories && article.categories.includes(currentCategory));
+
                 const searchMatch = currentSearchTerm === '' ||
                     article.title.toLowerCase().includes(currentSearchTerm.toLowerCase()) ||
                     article.description.toLowerCase().includes(currentSearchTerm.toLowerCase()) ||
-                    article.category.toLowerCase().includes(currentSearchTerm.toLowerCase());
+                    (article.categories && article.categories.some(cat =>
+                        cat.toLowerCase().includes(currentSearchTerm.toLowerCase())
+                    ));
+
                 return categoryMatch && searchMatch;
             });
 
-            // 排序文章
-            filteredArticles.sort((a, b) => {
-                if (currentSort === 'latest') {
-                    return new Date(b.date) - new Date(a.date);
-                } else if (currentSort === 'oldest') {
-                    return new Date(a.date) - new Date(b.date);
-                } else if (currentSort === 'popular') {
-                    return b.popularity - a.popularity;
-                }
-                return 0;
-            });
-
-            // 更新结果计数
             resultCount.textContent = filteredArticles.length;
 
-            // 分页处理
             const startIndex = (currentPage - 1) * articlesPerPage;
             const paginatedArticles = filteredArticles.slice(startIndex, startIndex + articlesPerPage);
 
-            // 生成文章HTML并添加到容器
             paginatedArticles.forEach(article => {
-                const articleElement = document.createElement('article');
-                articleElement.className = 'article-hover bg-white rounded-xl overflow-hidden shadow-md border border-gray-100';
-                articleElement.dataset.category = article.category;
-
-                // 在renderArticles函数中，修改文章标题链接
-                articleElement.innerHTML = `
-    <div class="h-48 overflow-hidden">
-        <img src="${article.image}" alt="${article.title}文章封面" class="w-full h-full object-cover">
-    </div>
-    <div class="p-6 space-y-3">
-        <div class="flex items-center text-sm text-muted">
-            <span class="fa fa-calendar-o mr-2"></span>
-            <time>${article.date}</time>
-            <span class="mx-2">•</span>
-            <span class="fa fa-folder-o mr-2"></span>
-            <span>${article.category}</span>
-        </div>
-        <h3 class="text-xl font-semibold hover:text-primary transition-colors">
-            <!-- 修改链接指向article.html并传递id参数 -->
-            <a href="article.html?id=${article.id}">${article.title}</a>
-        </h3>
-        <p class="text-muted line-clamp-3">${article.description}</p>
-        <a href="article.html?id=${article.id}" class="inline-flex items-center font-medium text-primary hover:text-primary/80 transition-colors">
-            阅读更多
-            <span class="fa fa-long-arrow-right ml-2"></span>
-        </a>
-    </div>
-`;
-
-                articlesContainer.appendChild(articleElement);
+                articlesContainer.appendChild(Utils.createArticlesCard(article));
             });
+
+            if (paginatedArticles.length === 0) {
+                articlesContainer.innerHTML = `
+                <div class="col-span-full text-center py-16">
+                    <p class="text-muted text-lg">没有找到符合条件的文章</p>
+                </div>
+                `;
+            }
         }
 
-        // 更新分页状态
         function updatePagination() {
-            // 计算总页数
             let filteredArticles = articlesData.filter(article => {
                 const categoryMatch = currentCategory === 'all' || article.category === currentCategory;
                 const searchMatch = currentSearchTerm === '' ||
@@ -395,130 +199,106 @@
                 return categoryMatch && searchMatch;
             });
 
-            const totalPages = Math.ceil(filteredArticles.length / articlesPerPage);
+            const totalPages = Math.max(1, Math.ceil(filteredArticles.length / articlesPerPage));
             const paginationContainer = document.getElementById('pagination-container');
 
-            // 清空现有分页按钮
             paginationContainer.innerHTML = `
-                <nav class="inline-flex rounded-md shadow-sm -space-x-px" aria-label="分页">
-                    <button class="page-btn relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50" id="prev-page">
-                        <span class="fa fa-chevron-left"></span>
-                    </button>
-                    <!-- 页码按钮将在这里动态生成 -->
-                    <button class="page-btn relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50" id="next-page">
-                        <span class="fa fa-chevron-right"></span>
-                    </button>
-                </nav>
-            `;
-
-            // 生成页码按钮
+            <nav class="inline-flex rounded-md shadow-sm -space-x-px" aria-label="分页">
+                <button class="page-btn relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50" id="first-page">
+                    <span class="fa fa-step-backward"></span>
+                </button>
+                <button class="page-btn relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50" id="prev-page">
+                    <span class="fa fa-chevron-left"></span>
+                </button>
+                <button class="page-btn relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50" id="next-page">
+                    <span class="fa fa-chevron-right"></span>
+                </button>
+                <button class="page-btn relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50" id="last-page">
+                    <span class="fa fa-step-forward"></span>
+                </button>
+            </nav>
+        `;
             const navElement = paginationContainer.querySelector('nav');
-            const prevButton = paginationContainer.querySelector('#prev-page');
+            const prevButton = document.getElementById('prev-page');
+            const nextButton = document.getElementById('next-page');
+            const firstButton = document.getElementById('first-page');
+            const lastButton = document.getElementById('last-page');
 
             for (let i = 1; i <= totalPages; i++) {
                 const pageButton = document.createElement('button');
-                pageButton.className = `page-btn relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 ${i === currentPage ? 'page-active' : ''}`;
+                pageButton.className = `page-btn relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium hover:bg-gray-50 ${i === currentPage ? 'page-active bg-primary text-white' : 'text-gray-700'}`;
                 pageButton.dataset.page = i;
                 pageButton.textContent = i;
-
-                pageButton.addEventListener('click', function () {
+                navElement.insertBefore(pageButton, nextButton);
+            }
+            document.querySelectorAll('.page-btn[data-page]').forEach(button => {
+                button.addEventListener('click', function () {
                     currentPage = parseInt(this.dataset.page);
                     renderArticles();
                     updatePagination();
-                    window.scrollTo({top: 300, behavior: 'smooth'});
+                    window.scrollTo({top: 200, behavior: 'smooth'});
                 });
+            });
 
-                // 插入到上一页按钮和下一页按钮之间
-                navElement.insertBefore(pageButton, prevButton.nextSibling);
-            }
-
-            // 重新获取下一页按钮并添加事件
-            const nextButton = paginationContainer.querySelector('#next-page');
-
-            // 更新上一页按钮事件
             prevButton.addEventListener('click', function () {
                 if (currentPage > 1) {
                     currentPage--;
                     renderArticles();
                     updatePagination();
-                    window.scrollTo({top: 300, behavior: 'smooth'});
+                    window.scrollTo({top: 200, behavior: 'smooth'});
                 }
             });
 
-            // 更新下一页按钮事件
             nextButton.addEventListener('click', function () {
                 if (currentPage < totalPages) {
                     currentPage++;
                     renderArticles();
                     updatePagination();
-                    window.scrollTo({top: 300, behavior: 'smooth'});
+                    window.scrollTo({top: 200, behavior: 'smooth'});
                 }
             });
 
-            // 更新上一页/下一页按钮状态
+            firstButton.addEventListener('click', function () {
+                if (currentPage !== 1) {
+                    currentPage = 1;
+                    renderArticles();
+                    updatePagination();
+                    window.scrollTo({top: 200, behavior: 'smooth'});
+                }
+            });
+
+            lastButton.addEventListener('click', function () {
+                if (currentPage !== totalPages) {
+                    currentPage = totalPages;
+                    renderArticles();
+                    updatePagination();
+                    window.scrollTo({top: 200, behavior: 'smooth'});
+                }
+            });
+
             if (currentPage === 1) {
+                firstButton.disabled = true;
+                prevButton.disabled = true;
+                firstButton.classList.add('opacity-50', 'cursor-not-allowed');
                 prevButton.classList.add('opacity-50', 'cursor-not-allowed');
-            } else {
-                prevButton.classList.remove('opacity-50', 'cursor-not-allowed');
             }
 
-            if (currentPage >= totalPages) {
+            if (currentPage === totalPages) {
+                lastButton.disabled = true;
+                nextButton.disabled = true;
+                lastButton.classList.add('opacity-50', 'cursor-not-allowed');
                 nextButton.classList.add('opacity-50', 'cursor-not-allowed');
-            } else {
-                nextButton.classList.remove('opacity-50', 'cursor-not-allowed');
             }
         }
 
-        // 搜索功能
         searchInput.addEventListener('input', function () {
             currentSearchTerm = this.value.trim();
-            currentPage = 1; // 重置到第一页
+            currentPage = 1;
             renderArticles();
             updatePagination();
         });
 
-        // 排序功能
-        sortSelect.addEventListener('change', function () {
-            currentSort = this.value;
-            renderArticles();
-        });
-
-        // 移动端菜单切换
-        const menuToggle = document.getElementById('menu-toggle');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        menuToggle.addEventListener('click', function () {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // 导航栏滚动效果
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', function () {
-            // 导航栏样式变化
-            if (window.scrollY > 50) {
-                navbar.classList.add('py-2', 'shadow-md', 'bg-white/95');
-                navbar.classList.remove('py-4', 'bg-white/80');
-            } else {
-                navbar.classList.add('py-4', 'bg-white/80');
-                navbar.classList.remove('py-2', 'shadow-md', 'bg-white/95');
-            }
-
-            // 返回顶部按钮显示/隐藏
-            if (window.scrollY > 500) {
-                backToTopButton.classList.remove('opacity-0', 'invisible');
-                backToTopButton.classList.add('opacity-100', 'visible');
-            } else {
-                backToTopButton.classList.add('opacity-0', 'invisible');
-                backToTopButton.classList.remove('opacity-100', 'visible');
-            }
-        });
-
-        // 返回顶部按钮点击事件
-        backToTopButton.addEventListener('click', function () {
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        });
-    });
+    }
 </script>
 </body>
 </html>
-    
